@@ -1,0 +1,113 @@
+{
+  "highscores": [
+    {
+      "username": "spy",
+      "score": 30
+    },
+    {
+      "username": "spy",
+      "score": 16
+    },
+    {
+      "username": "j.millington",
+      "score": 40
+    },
+    {
+      "username": "spy",
+      "score": 50
+    },
+    {
+      "username": "owo",
+      "score": 20
+    },
+    {
+      "username": "spy",
+      "score": 21
+    },
+    {
+      "username": "owo",
+      "score": 6
+    },
+    {
+      "username": "owo",
+      "score": 14
+    },
+    {
+      "username": "owweffewweo",
+      "score": 70
+    },
+    {
+      "username": "JuJu",
+      "score": 18
+    },
+    {
+      "username": "woof",
+      "score": 16
+    },
+    {
+      "username": "spy",
+      "score": 13
+    },
+    {
+      "username": "spy",
+      "score": 18
+    }
+  ],
+  "huss": {
+    "password": "0b44f14c3f8c22a48ded5da50393b0e1c91deee14b16e458dfeeaa656f7514879e814ba200e1d5c5721f6bfb0f8131c3"
+  },
+  "rhys": {
+    "password": "a2c70a4caaf73c40b93c912825c9a05cb36ea51e4506e21744882e8409d33a66365163b207df15d9ebbb38ac145c5de8"
+  },
+  "smellyjew": {
+    "password": "a964a78648d3caaf24633b571856be8fdc450afb2a1bc9d9de3d8d0e343e452571853b6608b2718c7204c0912e7f0400"
+  },
+  "lebs": {
+    "password": "41398010b5f21826023a461ead13ed0f9dbcf31c5a9268d73cbf34159e172c952b4d479c3d2d09f083b91699410c9fc2"
+  },
+  "j.millington": {
+    "password": "2b044363d582267239102587267e9c57d0c4cb1f5410929089c13f1d6ea9bde53ffaf31d3f3002febc74a12082a502fa"
+  },
+  "woof": {
+    "password": "7098d1904feff4f731625e5c685f4aa84252a6f615da7f03a57ec4d4f5557c49e77d0efca4601b3a7680dfd54596b6a5"
+  },
+  "egerotogu": {
+    "password": "ff2dae3bf2218c8f1890f103093191f975f8def674db9d8b830d0219da8271a35265af9c78123e748c0d13af7fa1e577"
+  },
+  "spy": {
+    "password": "504f008c8fcf8b2ed5dfcde752fc5464ab8ba064215d9c5b5fc486af3d9ab8c81b14785180d2ad7cee1ab792ad44798c"
+  },
+  "owo": {
+    "password": "504f008c8fcf8b2ed5dfcde752fc5464ab8ba064215d9c5b5fc486af3d9ab8c81b14785180d2ad7cee1ab792ad44798c"
+  },
+  "": {
+    "password": "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b"
+  },
+  "1": {
+    "password": "47f05d367b0c32e438fb63e6cf4a5f35c2aa2f90dc7543f8a41a0f95ce8a40a313ab5cf36134a2068c4c969cb50db776"
+  },
+  "2": {
+    "password": "d063457705d66d6f016e4cdd747db3af8d70ebfd36badd63de6c8ca4a9d8bfb5d874e7fbd750aa804dcaddae7eeef51e"
+  },
+  "JuJu": {
+    "password": "dedc2b83ebd39739c9c14d74b094da93b03793c0914a79587109b624c3aa3b2063f71eff9b6ffdf59bc4dc911e5da0ba"
+  },
+  "sam": {
+    "password": "504f008c8fcf8b2ed5dfcde752fc5464ab8ba064215d9c5b5fc486af3d9ab8c81b14785180d2ad7cee1ab792ad44798c"
+  },
+  "dog": {
+    "password": "1861ebe932dc65c5f04d33f6972b13acc8b1e572344016bf3cc950f60bfad6fdc0e32f0318e8bba57cf756eac0a49fce"
+  },
+  "owooooo": {
+    "password": "504f008c8fcf8b2ed5dfcde752fc5464ab8ba064215d9c5b5fc486af3d9ab8c81b14785180d2ad7cee1ab792ad44798c"
+  },
+  "spy2": {
+    "password": "5dbcbedb00d131a29e0593f976f2b43794293923919ad42766de817fec824a6262799fec8d04cb9b17c48e8eae912658"
+  },
+  "spy3": {
+    "password": "6af11c83586822c3c74bb3ccef728bae5cfee67cad82dd7402711e530bec782fc02aff273569d22ddffb3b145f343768"
+  },
+  "woooooo": {
+    "password": "1d587bbe50d4aef51f2ea3743f3c6f849a16e6c2cfe711029e5e202ab3484b0d6ed8de1e2c003215f34b5f1004fb81a4"
+  }
+}
