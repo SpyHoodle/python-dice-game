@@ -101,18 +101,22 @@ def user_manager():
     choice = input("> ").upper()
     if choice == "C" or choice == "CREATE" or choice == "CREATE PLAYER":
         players.new_user(game.data_file)
+        user_manager()
 
     elif choice == "D" or choice == "DELETE" or choice == "DELETE  PLAYER":
         players.del_user(game.data_file)
+        user_manager()
 
     elif choice == "E" or choice == "EDIT" or choice == "EDIT PLAYER":
         players.edit_user(game.data_file)
+        user_manager()
 
     elif choice == "R" or choice == "RETURN" or choice == "RETURN TO MENU":
         print(f"{colour.red}Returning to main menu...{colour.end}\n")
 
     else:
         print(f"{colour.red}Error: Command not recognized{colour.end}\n")
+        user_manager()
 
 game = Game()
 
@@ -145,29 +149,12 @@ def menu():
         menu()
 
     elif choice == "M" or choice == "MANAGE" or choice == "MANAGE PLAYERS":
-        print(f"\n{colour.blue}User Manager:{colour.end}")
-        print(f"{colour.cyan}(C){colour.end}reate player, {colour.cyan}(D){colour.end}elete player, {colour.cyan}(E){colour.end}dit player, or {colour.cyan}(R){colour.end}eturn to menu:")
-        
-        choice = input("> ").upper()
-        if choice == "C" or choice == "CREATE" or choice == "CREATE PLAYER":
-            players.new_user(game.data_file)
-
-        elif choice == "D" or choice == "DELETE" or choice == "DELETE  PLAYER":
-            players.del_user(game.data_file)
-
-        elif choice == "E" or choice == "EDIT" or choice == "EDIT PLAYER":
-            players.edit_user(game.data_file)
-
-        elif choice == "R" or choice == "RETURN" or choice == "RETURN TO MENU":
-            print(f"{colour.red}Returning to main menu...{colour.end}\n")
-
-        else:
-            print(f"{colour.red}Error: Command not recognized{colour.end}\n")
-        
+        user_manager()   
         menu()
         
 
     elif choice == "V" or choice == "VIEW" or choice == "VIEW HIGHSCORES":
+        os.system("clear")
         data = userdata.read_data(game.data_file)
         userdata.print_dict("Highscores (Top 5):", {i["username"]: i["score"] for i in data["highscores"]}, 10)
         menu()

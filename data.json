@@ -51,6 +51,10 @@
     {
       "username": "spy",
       "score": 18
+    },
+    {
+      "username": "JuJu",
+      "score": 18
     }
   ],
   "huss": {
@@ -109,5 +113,8 @@
   },
   "woooooo": {
     "password": "1d587bbe50d4aef51f2ea3743f3c6f849a16e6c2cfe711029e5e202ab3484b0d6ed8de1e2c003215f34b5f1004fb81a4"
+  },
+  "teddy": {
+    "password": "005abe332898c495f05ab0722ac6a316720c6f7ec67ce61df01c4578f2424f7cb034c115815add924484247123b65100"
   }
 }
