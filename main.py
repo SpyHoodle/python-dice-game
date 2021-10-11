@@ -22,8 +22,8 @@ import players
 class Game:
     def __init__(self, **kwargs):
         self.dev_mode = True
-        self.num_players = 3
-        self.rounds = 1
+        self.num_players = 2
+        self.rounds = 3
         self.data_file = "data.json"
         self.playing = {}
 
