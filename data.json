@@ -59,6 +59,14 @@
     {
       "username": "spy",
       "score": 22
+    },
+    {
+      "username": "spy",
+      "score": 6
+    },
+    {
+      "username": "spy",
+      "score": 14
     }
   ],
   "huss": {
@@ -83,7 +91,7 @@
     "password": "ff2dae3bf2218c8f1890f103093191f975f8def674db9d8b830d0219da8271a35265af9c78123e748c0d13af7fa1e577"
   },
   "spy": {
-    "password": "504f008c8fcf8b2ed5dfcde752fc5464ab8ba064215d9c5b5fc486af3d9ab8c81b14785180d2ad7cee1ab792ad44798c"
+    "password": "7098d1904feff4f731625e5c685f4aa84252a6f615da7f03a57ec4d4f5557c49e77d0efca4601b3a7680dfd54596b6a5"
   },
   "owo": {
     "password": "504f008c8fcf8b2ed5dfcde752fc5464ab8ba064215d9c5b5fc486af3d9ab8c81b14785180d2ad7cee1ab792ad44798c"
@@ -120,5 +128,11 @@
   },
   "teddy": {
     "password": "005abe332898c495f05ab0722ac6a316720c6f7ec67ce61df01c4578f2424f7cb034c115815add924484247123b65100"
+  },
+  "ewfweewf": {
+    "password": "a2908f79e62a757560e2955cc82302d4d3da9f0a7b35b9ad06546b493b231c26fd9c959ac67b930ad90af6633ef1daf6"
+  },
+  "dog2": {
+    "password": "db852bd19132ff521107c6112474bb52959561283c5861cf2f967ddd9daafcbc0077a74ee0f1a76e6b055d34bf4dc346"
   }
 }
