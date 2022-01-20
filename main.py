@@ -1,7 +1,7 @@
-# See LICENCE file for copyright and licence details
-# Github: https://github.com/SpyHoodle
+# See licence file for copyright and licence details
+# Github: https://github.com/spyhoodle/python-dice-game
 
-#   ____        _   _                   ____  _
+#  ____        _   _                   ____  _
 # |  _ \ _   _| |_| |__   ___  _ __   |  _ \(_) ___ ___
 # | |_) | | | | __| '_ \ / _ \| '_ \  | | | | |/ __/ _ \
 # |  __/| |_| | |_| | | | (_) | | | | | |_| | | (_|  __/
@@ -11,7 +11,7 @@
 #  / ___| __ _ _ __ ___   ___
 # | |  _ / _` | '_ ` _ \ / _ \
 # | |_| | (_| | | | | | |  __/
-#  \____|\__,_|_| |_| |_|\___| v2.1
+#  \____|\__,_|_| |_| |_|\___| v2.2
 
 # Import needed libraries
 import random
@@ -19,166 +19,338 @@ import time
 import os
 
 # Import custom files
-import colour
+import colour as c
 import userdata
 import players
 import configure
 
+
+# The Game class - the main class for the Game
 class Game:
     def __init__(self, num_players=2, rounds=5):
-        self.dev_mode = True # Development mode - Enables extra functions
-        self.num_players = num_players # The nuber of players
-        self.rounds = rounds # The number of rounds
-        self.data_file = "data.json" # The data file to read from
-        self.playing = {} # A dictionary of concurrent players
+        # Development mode - Enables extra functions
+        self.dev_mode = True
+        # The nuber of players
+        self.num_players = num_players
+        # The number of rounds
+        self.rounds = rounds
+        # The data file to read from
+        self.data_file = "pdg-data.json"
+        # A dictionary of concurrent players
+        self.playing = {}
 
     def roll(self):
-        input(f"{colour.green}Press enter to roll{colour.end}") # Press enter to roll the dice
+        # Press enter to roll the dice
+        input(f"{c.green}Press enter to roll{c.end}")
+        # The result will write over this (\r)
+        print("Rolling...", end="\r")
+        # Wait 0.5 seconds
+        time.sleep(0.5)
+        # Random Number acts as the die
+        roll = random.randint(1, 6)
+        # Show result (roll)
+        print(f"You rolled a: {roll}\n")
 
-        print("Rolling...", end="\r") # The result will write over this (\r)
-        time.sleep(0.5) # Wait 0.5 seconds
-        roll = random.randint(1, 6) # Random Number acts as the die
-
-        print(f"You rolled a: {roll}\n") # Show result
+        # Return result (roll)
         return roll
 
-    def turn(self, player, score, extra=None):
-        print(f"{colour.blue}Player: {player}{colour.end}") # Print the player's name
-        print(f"{colour.blue}Score: {self.playing[player]}{colour.end}\n") # Print the player's score
-        rolls = [self.roll() for _ in range(1 if extra == "extra" else 2)] # Roll 2 times, if turn is "extra" both players roll once
+    def turn(self, player, score, extra=False):
+        # Print the player's name
+        print(f"{c.blue}Player: {player}{c.end}")
+        # Print the player's score
+        print(f"{c.blue}Score: {self.playing[player]}{c.end}\n")
+        # Roll 2 times, if turn is extra then the player only rolls once
+        rolls = [self.roll() for _ in range(1 if extra is True else 2)]
 
-        if not extra == "extra": # If turn isn't the extra (players haven't drew)
-            if rolls[0] == rolls[1]: # If both rolls are the same (double)
-                print(f"{colour.cyan}You rolled a double!{colour.end}") # Scream in excitement
-                rolls.append(self.roll()) # Add the roll to the rolls list, which is the bonus
-                bonus = f"{colour.green}+{rolls[-1]}{colour.end} (rolled double)" # The bonus for the double
+        # If turn isn't the extra (players haven't drew)
+        if extra is False:
+            # If both rolls are the same (a double)
+            if rolls[0] == rolls[1]:
+                # Tell the user they rolled a double
+                print(f"{c.cyan}You rolled a double!{c.end}")
+                # Add the roll to the rolls list, which is the bonus
+                rolls.append(self.roll())
+                # The bonus message for the double
+                bonus_msg = f"{c.green}+{rolls[-1]}{c.end} (double roll)"
 
             elif sum(rolls) % 2:
-                bonus = f"{colour.red}-5{colour.end} (odd score)" # The bonus for an odd total is -5
-                rolls.append(-5) # Add the bonus to the end of the rolls list
+                # The bonus for an odd total is -5
+                bonus_msg = f"{c.red}-5{c.end} (odd score)"
+                # Add the bonus to the end of the rolls list
+                rolls.append(-5)
 
             else:
-                bonus = f"{colour.green}+10{colour.end} (even score)" # The bonus for an even total is +10
-                rolls.append(10) # Add the bonus to the end of the rolls list
+                # The bonus for an even total is +10
+                bonus_msg = f"{c.green}+10{c.end} (even score)"
+                # Add the bonus to the end of the rolls list
+                rolls.append(10)
 
-            time.sleep(1) # Wait one second
-            print(f"Score: {colour.green}{rolls[0]} + {rolls[1]}{colour.end} = {colour.blue}{sum(rolls[0:2])}{colour.end}") # Show the score
-            time.sleep(1) # Wait one second
-            print(f"Bonus: {colour.green if rolls[-1] > 0 else colour.red}{bonus}{colour.end}") # Show the bonus
-            time.sleep(1) # Wait one second
-            print(
-                f"Total: " +
-                f"{colour.red}{score}{colour.end} " +
-                f"{colour.green}+{sum(rolls[0:2])}{colour.end} " +
-                f"{colour.green if rolls[-1] > 0 else colour.red}{'+' if rolls[-1] > 0 else ''}{rolls[-1]}{colour.end} " +
-                f"= {colour.blue}{max(0, score + sum(rolls))}{colour.end}\n\n"
-            ) # Print the total score, which also shows the math used to find it
-        
+            # Wait one second
+            time.sleep(1)
+            # Show the score, without the bonus
+            print(f"Score: {c.green}{rolls[0]} + {rolls[1]}{c.end} = {c.blue}{sum(rolls[0:2])}{c.end}")
+            # Wait one second
+            time.sleep(1)
+            # Show the bonus to the player
+            print(f"Bonus: {c.green if rolls[-1] > 0 else c.red}{bonus_msg}{c.end}")
+            # Wait one second
+            time.sleep(1)
+
+            # Print the total score, which shows the math used
+            print("Total: " +
+                  f"{c.red}{score}{c.end} " +
+                  f"{c.green}+{sum(rolls[0:2])}{c.end} " +
+                  f"{c.green if rolls[-1] > 0 else c.red}{'+' if rolls[-1] > 0 else ''}{rolls[-1]}{c.end} " +
+                  f"= {c.blue}{max(0, score + sum(rolls))}{c.end}\n\n")
+
+        # Return the total score earned this turn
         return sum(rolls)
 
     def round(self, round):
-        print(f"{colour.magenta}Round {round+1}:{colour.end}") # Print the round number
-        for player in self.playing.keys(): # Run for the amount of concurrent players
-            self.playing[player] += self.turn(player, self.playing[player]) # The players score is the value returned by the turn() function
-            self.playing[player] = max(0, self.playing[player]) # Set the players score to 0 if it becomes negative
-            time.sleep(2) # Wait for 2 seconds
+        # Clear the screen
+        os.system("clear")
+
+        # If round is sudden death
+        if round == "sudden_death":
+            # Print the round name "Sudden Death"
+            print(f"{c.magenta}Round: Sudden Death!{c.end}")
+            # Run for the amount of concurrent players
+            for player in self.playing.keys():
+                # The player's score is the value returned turn()
+                # Extra turn is needed here as each player only rolls once
+                self.playing[player] += self.turn(player, self.playing[player], extra=True)
+                # Wait for 1 second
+                time.sleep(1)
+
+        # Default round style
+        else:
+            # Print the round number
+            print(f"{c.magenta}Round {round+1}:{c.end}")
+            # Run for the amount of concurrent players
+            for player in self.playing.keys():
+                # The player's score is the value returned turn()
+                self.playing[player] += self.turn(player, self.playing[player])
+                # Set the players score to 0 if it becomes negative
+                self.playing[player] = max(0, self.playing[player])
+                # Wait for 1 second
+                time.sleep(1)
+
+        # Press enter to continue
+        input(f"{c.green}Press enter to continue...{c.end}")
 
     def game_over(self):
-        winner = {"username": max(self.playing, key=self.playing.get), "score": max(self.playing.values())} # Find the winner
-        os.system("clear") # Clear the screen
-        print(f"{colour.green}Game over! The winner is '{max(self.playing, key=self.playing.get)}'!{colour.end}\n") # Print the winner
-        score_amount = 10 if self.num_players > 10 else self.num_players # Show a maximum of 10 scores on screen
-        userdata.print_dict(f"Scores this game (Top {score_amount}):", self.playing, score_amount) # Print out the scores for this game
+        # Find the winner
+        winner = {"username": max(self.playing, key=self.playing.get), "score": max(self.playing.values())}
+        # Clear the screen
+        os.system("clear")
+        # Print the winner
+        print(f"{c.green}Game over! The winner is '{max(self.playing, key=self.playing.get)}'!{c.end}\n")
+        # Show a maximum of 10 scores on screen
+        score_amount = 10 if self.num_players > 10 else self.num_players
+        # Print out the scores for this game
+        userdata.print_dict(f"Scores this game (Top {score_amount}):", self.playing, score_amount)
 
-        data = userdata.read_data(self.data_file) # Read from the data file
-        data["highscores"].append(winner) # Add the winner to the score history
-        userdata.write_data(data, self.data_file) # Write to the data file
+        # Read from the data file
+        data = userdata.read_data(self.data_file)
+        # Add the winner to the score history
+        data["scores"].append(winner)
+        # Write to the data file
+        userdata.write_data(data, self.data_file)
 
-        userdata.print_dict("Highscores (Top 5):", {i["username"]: i["score"] for i in data["highscores"]}, 10) # Print out highscores
+        # Print out top 5 previous high scores
+        scores = {i["username"]: i["score"] for i in data["scores"]}
+        userdata.print_dict("Highscores (Top 5):", scores, 5)
+
+
+# Create the Game() object with default values
+game = Game()
+
 
 def user_manager():
-    print(f"\n{colour.blue}User Manager:{colour.end}") # User Manager Title
-    print(f"{colour.cyan}(C){colour.end}reate player, {colour.cyan}(D){colour.end}elete player, {colour.cyan}(E){colour.end}dit password, or {colour.cyan}(R){colour.end}eturn to menu:") # Menu options
-    
-    choice = input("> ").upper() # Ask for an input for the menu
-    if choice == "C" or choice == "CREATE" or choice == "CREATE PLAYER": # Create player
-        players.new_user(game.data_file) # Create player
-        user_manager() # Run user_manager() again
+    # User manager menu title
+    print(f"\n{c.blue}User Manager:{c.end}")
+    # Show menu options (one line)
+    print(f"{c.cyan}(C){c.end}reate player, " +
+          f"{c.cyan}(D){c.end}elete player, " +
+          f"{c.cyan}(E){c.end}dit password, " +
+          f"or {c.cyan}(R){c.end}eturn to menu:")
 
-    elif choice == "D" or choice == "DELETE" or choice == "DELETE PLAYER": # Delete player
-        players.del_user(game.data_file) # Delete player
-        user_manager() # Run user_manager() again
+    # Ask for an input for the menu
+    choice = input("> ").upper()
 
-    elif choice == "E" or choice == "EDIT" or choice == "EDIT PASSWORD": # Edit password
-        players.change_pass(game.data_file) # Change password
-        user_manager() # Run user_manager() again
+    if choice == "C" or choice == "CREATE" or choice == "CREATE PLAYER":
+        # Create a new player
+        players.new_user(game.data_file)
 
-    elif choice == "R" or choice == "RETURN" or choice == "RETURN TO MENU": # Return to main menu
-        print(f"{colour.red}Returning to main menu...{colour.end}\n") 
-        # Don't run user_manager() again, menu() will run again once this ends
+        # Return to user_manager() menu
+        user_manager()
 
-    else: 
-        print(f"{colour.red}Error: Command not recognized{colour.end}\n") # Incorrect choice from the menu
-        user_manager() # Run user_manager() again
+    elif choice == "D" or choice == "DELETE" or choice == "DELETE PLAYER":
+        # Delete a player
+        players.del_user(game.data_file)
 
-game = Game() # Create a basic game object with default values
+        # Return to user_manager() menu
+        user_manager()
 
+    elif choice == "E" or choice == "EDIT" or choice == "EDIT PASSWORD":
+        # Change password
+        players.change_pass(game.data_file)
+
+        # Return to user_manager() menu
+        user_manager()
+
+    elif choice == "R" or choice == "RETURN" or choice == "RETURN TO MENU":
+        # Don't return to user_manager() menu
+        print(f"{c.red}Returning to main menu...{c.end}\n")
+
+    else:
+        # Choice from the menu is not found
+        print(f"{c.red}Error: Command not recognized{c.end}")
+
+        # Return to user_manager() menu
+        user_manager()
+
+
+# Main menu function
 def menu():
-    print(f"{colour.blue}Main Menu:{colour.end}") # Main menu title
-    print(f"{colour.cyan}(S){colour.end}tart a game, {colour.cyan}(M){colour.end}anage players, {colour.cyan}(V){colour.end}iew highscores, or {colour.cyan}(E){colour.end}xit:") # Menu options
-    choice = input("> ").upper() # Ask for an input for the menu
+    # Create the game object with default values
+    game = Game()
 
-    if choice == "S" or choice == "START" or choice == "START A GAME": # Start the game
-        print(f"{colour.blue}Configure the game before starting:{colour.end}") # Title
-        num_players, rounds = configure.configure_game() # Configure the game
+    # Main menu title
+    print(f"{c.blue}Main Menu:{c.end}")
+    # Menu options
+    print(f"{c.cyan}(S){c.end}tart a game, " +
+          f"{c.cyan}(M){c.end}anage players, " +
+          f"{c.cyan}(V){c.end}iew highscores, " +
+          f"or {c.cyan}(E){c.end}xit:")
 
-        game = Game(num_players=num_players, rounds=rounds) # Create a Game() object with the game settings
+    # Ask for an input for the menu
+    choice = input("> ").upper()
 
-        for i in range(game.num_players): # Run for the amount of players
-            game.playing = players.login_user(game.playing, game.data_file) # Login a user
-        
-        for i in [3,2,1]: # Countdown for 3 seconds
-            print(f"{colour.magenta}The game will start in {i}... {colour.end}", end="\r") # Countdown will write over itself (\r)
-            time.sleep(1) # Wait 1 second
-        
-        os.system("clear") # Clear the screen
-        for round in range(game.rounds): # Run for the amount of rounds specified
-            game.round(round) # Create a round, pass the round number
+    if choice == "S" or choice == "START" or choice == "START A GAME":
+        # Print a title for configuring the game
+        print(f"{c.blue}Configure the game before starting:{c.end}")
+        # Configure the game
+        num_players, rounds = configure.configure_game()
 
-        while all(element == list(game.playing.values())[0] for element in game.playing.values()): # While all the players have the same score
-            print(f"{colour.green}All players have the same score!{colour.end}") # Tell the players they have the same score
-            time.sleep(1) # Wait 1 second
-            os.system("clear") # Clear the screen
-            print(f"\n{colour.magenta}Round: Sudden death{colour.end}") # Sudden death mode 
-            for player in game.playing.keys(): # For the amount of players playing
-                game.turn(player, game.playing[player], roll="extra") # Each player gets an extra turn
+        # Create a Game() object with the game settings
+        game = Game(num_players=num_players, rounds=rounds)
 
-        game.game_over() # Game over
-        menu() # Return to main menu
+        # Run for the amount of players
+        for i in range(game.num_players):
+            # Login a user
+            game.playing = players.login_user(game.playing, game.data_file)
 
-    elif choice == "M" or choice == "MANAGE" or choice == "MANAGE PLAYERS": # Manage players
-        user_manager() # Manage players (recusrive functions)
-        menu() # Return to main menu
+        # Countdown for 3 seconds
+        for i in [3, 2, 1]:
+            # Countdown will write over itself (\r)
+            print(f"{c.magenta}The game will start in {i}...{c.end}", end="\r")
+            # Wait 1 second
+            time.sleep(1)
 
-    elif choice == "V" or choice == "VIEW" or choice == "VIEW HIGHSCORES": # View highscores
-        os.system("clear") # Clear screen
-        data = userdata.read_data(colour.data_file) # Read data from the data file
-        userdata.print_dict("Highscores (Top 5):", {i["username"]: i["score"] for i in data["highscores"]}, 10) # Print the highscores
-        menu() # Return to main menu
+        # Run for the amount of rounds specified
+        for round in range(game.rounds):
+            # Create a round and pass the round number
+            game.round(round)
 
-    elif choice == "E" or choice == "EXIT": # Exit the game
-        print(f"{colour.red}Goodbye!{colour.end}") 
+        # While all the players have the same score
+        while all(element == list(game.playing.values())[0] for element in game.playing.values()):
+            # Tell the players they have the same score
+            print(f"{c.green}All players have the same score!{c.end}")
+            # Wait 1 second
+            time.sleep(1)
+            # Create a Sudden Death round
+            game.round("sudden_death")
+
+        # Game over sequence
+        game.game_over()
+
+        # Return to main menu
+        menu()
+
+    elif choice == "M" or choice == "MANAGE" or choice == "MANAGE PLAYERS":
+        # Manage players menu (recursive function)
+        user_manager()
+
+        # Return to main menu
+        menu()
+
+    elif choice == "V" or choice == "VIEW" or choice == "VIEW HIGHSCORES":
+        # Clear the screen
+        os.system("clear")
+        # Read data from the data file
+        data = userdata.read_data(game.data_file)
+        # Print out top 5 previous highscores
+        scores = {i["username"]: i["score"] for i in data["scores"]}
+        userdata.print_dict("Highscores (Top 5):", scores, 5)
+
+        # Return to main menu
+        menu()
+
+    elif choice == "C" or choice == "CLEAR":
+        # Clear the screen
+        os.system("clear")
+
+        # Return to main menu
+        menu()
+
+    elif choice == "E" or choice == "EXIT":
         # Say goodbye, and don't return to main menu
+        print(f"{c.red}Goodbye!{c.end} Thank you for playing!")
 
-    else: # If command does not match any if statements
-        print(f"{colour.red}Error: Command not recognized{colour.end}\n") # Command not recognized (not a choice in the menu)
-        menu() # Return to main menu
+    else:
+        # Choice from the menu is not fouind
+        print(f"{c.red}Error: Command not recognized{c.end}\n")
 
-# Start the game!!!
-def main(): # Main function (Welcome)
-    os.system("clear") # Clear the screen
-    print(f"{colour.magenta}Welcome to Python Dice Game{colour.end} {colour.green}v2.1!{colour.end} {colour.red}{'(Development Mode Enabled)' if game.dev_mode == True else ''}{colour.end}") # Welcome message!
-    menu() # Start the main menu
+        # Return to main menu
+        menu()
 
-if __name__ == "__main__": # Only run if file is run directly with python. Do not run if included in another file.
-    main() # Start the main function
+
+# Fist game startup!
+def startup():
+    # Clear the screen
+    os.system("clear")
+
+    # Check whether a pdg-data.json file is present
+    if os.path.exists("pdg-data.json") is False:
+        # Tell the user that a pdg-data file isn't present
+        print(f"{c.red}Important: No pdg-data.json (game data) file found.{c.end}")
+        # Yes or no, no will quit the game as pdg NEEDS game data
+        choice = input("Would you like to create one? (y/N): ").upper()
+
+        if choice == "Y" or choice == "YES":
+            # Tell the user we're creating the file
+            print(f"{c.yellow}Creating game data...{c.end}")
+            # Create a new file called pdg-data.json
+            with open('pdg-data.json', 'w') as file:
+                # Write a json format for python-dice-game
+                file.write('{\n"scores": []\n}')
+
+            # Tell the user we've succeeded
+            print(f"{c.green}Game data created!{c.end}")
+
+            # Wait 1 second
+            time.sleep(1)
+
+            # Print out a welcome message
+            print(f"{c.magenta}Welcome to Python Dice Game{c.end} {c.green}v2.1!{c.end}" +
+                  f"{c.red}{' (Development Mode)' if game.dev_mode == True else ''}{c.end}")
+
+            # Start the main menu (recursive function)
+            menu()
+        else:
+            # Tell the user the game is quitting because it needs game data
+            print(f"{c.red}Quitting game... (PDG needs game data){c.end}")
+    else:
+        # Print out a welcome message
+        print(f"{c.magenta}Welcome to Python Dice Game{c.end} {c.green}v2.1!{c.end}" +
+              f"{c.red}{' (Development Mode)' if game.dev_mode == True else ''}{c.end}")
+
+        # Start the main menu (recursive function)
+        menu()
+
+
+# Prevent running if imported by another file.
+if __name__ == "__main__":
+    # Start the game
+    startup()

@@ -1,4 +1,5 @@
-# See LICENCE file for copyright and licence details
+# See LICENSE file for copyright and licence details
+# Github: https://github.com/SpyHoodle/python-dice-game
 
 red = '\033[91m'
 green = '\033[92m'
