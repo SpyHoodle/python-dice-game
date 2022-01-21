@@ -1,4 +1,4 @@
-# See licence file for copyright and licence details
+# See LICENSE file for copyright and licence details
 # Github: https://github.com/spyhoodle/python-dice-game
 
 # Import needed libraries
