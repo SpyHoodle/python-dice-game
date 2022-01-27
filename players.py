@@ -20,7 +20,7 @@ def get_username_and_pass(msg):
     print(f"\n{c.blue}Enter a username and password to {msg}:{c.end}")
 
     # Ask for a username
-    username = input("Username: ").upper()
+    username = input("Username: ")
     # Ask for a password
     password = get_pass()
 

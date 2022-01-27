@@ -1,11 +1,22 @@
 {
   "scores": [
     {
-      "username": "ian",
-      "score": 50
+      "username": "spy",
+      "score": 5
+    },
+    {
+      "username": "spy",
+      "score": 4
+    },
+    {
+      "username": "spy",
+      "score": 65
     }
   ],
-  "sam": {
-    "password": "f43211f34235f416ed799126e46ff3b77155acff484eec2bbe93e081082a30e3dd7462217470747fdc8bc4fb9facf205"
+  "spy": {
+    "password": "504f008c8fcf8b2ed5dfcde752fc5464ab8ba064215d9c5b5fc486af3d9ab8c81b14785180d2ad7cee1ab792ad44798c"
+  },
+  "test": {
+    "password": "504f008c8fcf8b2ed5dfcde752fc5464ab8ba064215d9c5b5fc486af3d9ab8c81b14785180d2ad7cee1ab792ad44798c"
   }
 }
