@@ -30,7 +30,7 @@ class Game:
     def __init__(self, num_players=2, rounds=5):
         # Development mode - Enables extra functions
         self.dev_mode = True
-        # The nuber of players
+        # The number of players
         self.num_players = num_players
         # The number of rounds
         self.rounds = rounds
